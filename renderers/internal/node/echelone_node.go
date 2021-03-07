@@ -267,11 +267,25 @@ func (node *EchelonNode) AppendDescription(text string) {
 		return
 	}
 	if len(node.description) == 0 {
-		node.description = linesToAppend
+		description := make([]string, len(linesToAppend))
+		for i, line := range linesToAppend {
+			if strings.HasPrefix(line, "\r") {
+				description[i] = line[1:]
+				continue
+			}
+
+			description[i] = line
+ 		}
+ 		node.description = description
 		return
 	}
-	// append first new line to the last one
-	node.description[len(node.description)-1] = node.description[len(node.description)-1] + linesToAppend[0]
+
+	if strings.HasPrefix(linesToAppend[0], "\r") && len(linesToAppend) == 2 && len(node.description) >= 2 {
+		node.description[len(node.description)-2] = "[prefixed]" + linesToAppend[0][1:]
+		return
+	} else {
+		node.description[len(node.description)-1] = node.description[len(node.description)-1] + linesToAppend[0]
+	}
 	if len(linesToAppend) > 1 {
 		node.description = append(node.description, linesToAppend[1:]...)
 	}
