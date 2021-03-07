@@ -281,7 +281,7 @@ func (node *EchelonNode) AppendDescription(text string) {
 	}
 
 	if strings.HasPrefix(linesToAppend[0], "\r") && len(linesToAppend) == 2 && len(node.description) >= 2 {
-		node.description[len(node.description)-2] = "[prefixed]" + linesToAppend[0][1:]
+		node.description[len(node.description)-2] = linesToAppend[0][1:]
 		return
 	} else {
 		node.description[len(node.description)-1] = node.description[len(node.description)-1] + linesToAppend[0]
