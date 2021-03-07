@@ -113,7 +113,11 @@ func (node *EchelonNode) Render() []string {
 		indent = "   " // three spaces since title start with a wide emoji
 	}
 	result := []string{title}
-	for _, descriptionLine := range tail {
+	for i, descriptionLine := range tail {
+		if i == len(tail) - 1 && strings.TrimSpace(descriptionLine) == ""{
+			break
+		}
+
 		result = append(result, indent+descriptionLine)
 	}
 
